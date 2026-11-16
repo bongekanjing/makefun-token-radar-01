@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <p class="eyebrow">make.fun &middot; token-radar-01</p>
+      <h1>Token Radar</h1>
+      <p class="lede">Every protocol that <strong>records no token yet</strong>, ranked by what its token would be worth if the protocol&rsquo;s record stayed as it is &mdash; and what to do to farm it before it launches.</p>
+    </div>
+    <dl class="headline" id="headline"></dl>
+  </div>
+  <p class="caveat">An implied value is this radar&rsquo;s own claim, from the snapshot&rsquo;s figures alone. It is not a prediction that a token will be issued, or when. A protocol on this board may still have a token its DefiLlama record does not carry.</p>
+</header>
+
+<main>
+  <section class="controls" aria-label="Board controls">
+    <label>Search <input id="q" type="search" placeholder="Protocol name or slug&hellip;" autocomplete="off"></label>
+    <label>Category <select id="category"><option value="">All categories</option></select></label>
+    <label>Chain <select id="chain"><option value="">All chains</option></select></label>
+    <label>Set <select id="set"><option value="">Watchlist + early finds</option><option value="watchlist">Watchlist only</option><option value="early">Early finds only</option></select></label>
+    <label>Sort by <select id="sort"><option value="implied">Implied value</option><option value="tvl">TVL</option><option value="growth">7-day growth</option><option value="age">Age (oldest first)</option><option value="name">Name A&ndash;Z</option></select></label>
+    <p class="count" id="count" aria-live="polite"></p>
+  </section>
+
+  <section class="board-wrap" aria-label="Ranked board">
+    <table class="board" id="board">
+      <thead><tr>
+        <th class="num">#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+        <th class="num">TVL</th><th class="num">7d</th><th class="num">Age</th>
+        <th class="num">Implied value</th><th class="bar-col">Share of #1</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="empty" id="empty" hidden>No protocol matches this filter. Clear the search or widen the filters.</p>
+  </section>
+
+  <section class="detail" id="detail" hidden aria-label="Protocol detail"></section>
+
+  <section class="model" aria-label="How the value is modelled">
+    <h2>How the implied value is modelled</h2>
+    <p class="formula">implied value = TVL &times; category multiple &times; growth multiplier &times; maturity multiplier &times; breadth multiplier</p>
+    <div class="model-grid">
+      <div><h3>Category multiple</h3><p>A token is a claim on the cash its category generates. Perpetuals exchanges earn fees on every trade, so they carry 0.38&times; TVL; bridges earn a thin spread on parked capital, so they carry 0.10&ndash;0.14&times;. The multiple is a property of the category, never of a name, and the full table is in the data.</p></div>
+      <div><h3>Growth multiplier</h3><p>1 + clamped 7-day TVL change &times; 0.6. A protocol up 20% in a week scores 1.12&times;; one down 30% scores 0.82&times;. The change is clamped to &minus;50% &hellip; +150% so one wild week cannot dominate the board.</p></div>
+      <div><h3>Maturity multiplier</h3><p>0.55 + up to 0.45 by age, capped at 3 years. A protocol that has run for years with no token has survived more cycles and built a larger base to distribute a token to than one listed last month.</p></div>
+      <div><h3>Breadth multiplier</h3><p>1 + 0.02 per chain beyond the first, up to 10 chains. A protocol live on many chains reaches more wallets and more liquidity than a single-chain one at the same TVL.</p></div>
+    </div>
+    <p class="model-note">Every row&rsquo;s four multipliers are shown in its detail view, so any number on this board can be re-derived from the snapshot alone. Protocols whose token already trades are kept apart below: their market cap is the market&rsquo;s own value, never a modelled number.</p>
+  </section>
+
+  <section class="live" aria-label="Protocols whose token already trades">
+    <h2>Already trading &mdash; the market&rsquo;s own values</h2>
+    <p>These protocols record a token, so they are <strong>not</strong> ranked above. Their market caps are shown for contrast: a pre-token protocol&rsquo;s implied value only means something next to what live tokens actually trade at.</p>
+    <table class="board live-table" id="live-table">
+      <thead><tr><th>Protocol</th><th>Category</th><th>Chains</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">7d</th></tr></thead>
+      <tbody id="live-rows"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <p>Data: DefiLlama public protocol data, fetched 2026-11-14 (snapshot as of <span id="asof"></span>). 758 protocols at or above $5,000,000 TVL; 40 on the watchlist at or above $50,000,000 with no token recorded.</p>
+  <p>Model <span id="modelver"></span> &middot; Static page, no network, no tracking &middot; Built for the make.fun &ldquo;best token launch radar&rdquo; bounty.</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
