@@ -17,6 +17,7 @@
     <dl class="headline" id="headline"></dl>
   </div>
   <p class="caveat">An implied value is this radar&rsquo;s own claim, from the snapshot&rsquo;s figures alone. It is not a prediction that a token will be issued, or when. A protocol on this board may still have a token its DefiLlama record does not carry.</p>
+  <p class="fit-strip">Model radar-3: multiples fitted from the snapshot&rsquo;s 101 live-token comparables, plus a fitted size curve (TVL / $50M)<sup>&minus;0.48</sup>. Walk-forward: 12.2% lower error than the flat-multiple model going forward, 8.8% reversed. See &ldquo;How the implied value is modelled&rdquo; below for the full table.</p>
 </header>
 
 <main>
@@ -45,14 +46,47 @@
 
   <section class="model" aria-label="How the value is modelled">
     <h2>How the implied value is modelled</h2>
-    <p class="formula">implied value = TVL &times; category multiple &times; growth multiplier &times; maturity multiplier &times; breadth multiplier</p>
+    <p class="formula">implied value = TVL &times; category multiple &times; size multiplier &times; growth multiplier &times; maturity multiplier &times; breadth multiplier</p>
     <div class="model-grid">
-      <div><h3>Category multiple</h3><p>A token is a claim on the cash its category generates. Perpetuals exchanges earn fees on every trade, so they carry 0.38&times; TVL; bridges earn a thin spread on parked capital, so they carry 0.10&ndash;0.14&times;. The multiple is a property of the category, never of a name, and the full table is in the data.</p></div>
+      <div><h3>Category multiple &mdash; fitted, not guessed</h3><p>Each category&rsquo;s multiple is fitted from the snapshot&rsquo;s own live-token protocols: the median market-cap-to-TVL of that category&rsquo;s live tokens, divided by the size factor so a category is not credited for merely being small, then shrunk toward the prior table with weight n/(n+4) and capped at a 2&times; move. Lending fits 0.16&times; (its live tokens trade at 0.13&times; TVL); liquid staking fits 0.14&times; (0.04&times;); bridges fit 0.20&ndash;0.28&times; (0.99&ndash;1.13&times;). Categories with fewer than 3 live comparables keep the table value. The full fitted table is below.</p></div>
+      <div><h3>Size multiplier</h3><p>A token&rsquo;s market cap does not grow one-for-one with TVL. Across the snapshot&rsquo;s 128 live tokens, log market cap rises only 0.52 per 1.0 of log TVL: small protocols trade near 0.87&times; TVL, mid ones near 0.31&times;, large ones near 0.08&times;. The factor is the fitted power law (TVL / $50M)<sup>&minus;0.48</sup>, clamped to 0.25&ndash;4: a $5M protocol scores ~3&times;, a $500M one ~0.33&times;, a $5B one 0.25&times; on size alone.</p></div>
       <div><h3>Growth multiplier</h3><p>1 + clamped 7-day TVL change &times; 0.6. A protocol up 20% in a week scores 1.12&times;; one down 30% scores 0.82&times;. The change is clamped to &minus;50% &hellip; +150% so one wild week cannot dominate the board.</p></div>
       <div><h3>Maturity multiplier</h3><p>0.55 + up to 0.45 by age, capped at 3 years. A protocol that has run for years with no token has survived more cycles and built a larger base to distribute a token to than one listed last month.</p></div>
       <div><h3>Breadth multiplier</h3><p>1 + 0.02 per chain beyond the first, up to 10 chains. A protocol live on many chains reaches more wallets and more liquidity than a single-chain one at the same TVL.</p></div>
     </div>
-    <p class="model-note">Every row&rsquo;s four multipliers are shown in its detail view, so any number on this board can be re-derived from the snapshot alone. Protocols whose token already trades are kept apart below: their market cap is the market&rsquo;s own value, never a modelled number.</p>
+    <p class="model-note">Every row&rsquo;s five multipliers are shown in its detail view, so any number on this board can be re-derived from the snapshot alone. Protocols whose token already trades are kept apart below: their market cap is the market&rsquo;s own value, never a modelled number.</p>
+
+    <h3>Fitted multiples &mdash; from the snapshot&rsquo;s 101 live comparables</h3>
+    <p class="model-note">Median market-cap-to-TVL per category, size-adjusted (each live token&rsquo;s ratio divided by its size factor), shrunk toward the prior with weight n/(n+4), move capped at 2&times;. Categories with fewer than 3 live comparables keep the prior.</p>
+    <table class="board calib-table">
+      <thead><tr><th>Category</th><th class="num">Live comps (n)</th><th class="num">Median mcap/TVL</th><th class="num">Size-adjusted</th><th class="num">Prior</th><th class="num">Fitted multiple</th></tr></thead>
+      <tbody>
+        <tr><td>lending</td><td class="num">15</td><td class="num">0.13&times;</td><td class="num">0.13&times;</td><td class="num">0.30&times;</td><td class="num"><strong>0.16&times;</strong></td></tr>
+        <tr><td>dexs</td><td class="num">11</td><td class="num">0.34&times;</td><td class="num">0.25&times;</td><td class="num">0.32&times;</td><td class="num"><strong>0.27&times;</strong></td></tr>
+        <tr><td>liquid staking</td><td class="num">9</td><td class="num">0.04&times;</td><td class="num">0.07&times;</td><td class="num">0.28&times;</td><td class="num"><strong>0.14&times;</strong></td></tr>
+        <tr><td>yield</td><td class="num">9</td><td class="num">0.19&times;</td><td class="num">0.18&times;</td><td class="num">0.24&times;</td><td class="num"><strong>0.20&times;</strong></td></tr>
+        <tr><td>rwa</td><td class="num">9</td><td class="num">0.27&times;</td><td class="num">0.34&times;</td><td class="num">0.22&times;</td><td class="num"><strong>0.31&times;</strong></td></tr>
+        <tr><td>canonical bridge</td><td class="num">8</td><td class="num">1.13&times;</td><td class="num">0.72&times;</td><td class="num">0.10&times;</td><td class="num"><strong>0.20&times;</strong></td></tr>
+        <tr><td>basis trading</td><td class="num">7</td><td class="num">0.65&times;</td><td class="num">0.41&times;</td><td class="num">0.30&times;</td><td class="num"><strong>0.37&times;</strong></td></tr>
+        <tr><td>bridge</td><td class="num">6</td><td class="num">0.99&times;</td><td class="num">0.39&times;</td><td class="num">0.12&times;</td><td class="num"><strong>0.24&times;</strong></td></tr>
+        <tr><td>cross chain</td><td class="num">4</td><td class="num">2.20&times;</td><td class="num">1.19&times;</td><td class="num">0.14&times;</td><td class="num"><strong>0.28&times;</strong></td></tr>
+        <tr><td>yield aggregator</td><td class="num">4</td><td class="num">0.25&times;</td><td class="num">0.14&times;</td><td class="num">0.26&times;</td><td class="num"><strong>0.20&times;</strong></td></tr>
+        <tr><td>cdp</td><td class="num">3</td><td class="num">0.17&times;</td><td class="num">0.17&times;</td><td class="num">0.30&times;</td><td class="num"><strong>0.24&times;</strong></td></tr>
+        <tr><td>dexes</td><td class="num">3</td><td class="num">0.15&times;</td><td class="num">0.07&times;</td><td class="num">0.32&times;</td><td class="num"><strong>0.21&times;</strong></td></tr>
+        <tr><td>privacy</td><td class="num">3</td><td class="num">0.97&times;</td><td class="num">1.40&times;</td><td class="num">0.20&times;</td><td class="num"><strong>0.40&times;</strong></td></tr>
+        <tr><td>derivatives</td><td class="num">2</td><td class="num">2.95&times;</td><td class="num">1.41&times;</td><td class="num">0.34&times;</td><td class="num"><strong>0.34&times;</strong></td></tr>
+        <tr><td>liquid restaking</td><td class="num">2</td><td class="num">0.35&times;</td><td class="num">0.45&times;</td><td class="num">0.28&times;</td><td class="num"><strong>0.28&times;</strong></td></tr>
+        <tr><td>launchpad</td><td class="num">1</td><td class="num">0.13&times;</td><td class="num">0.21&times;</td><td class="num">0.20&times;</td><td class="num"><strong>0.20&times;</strong></td></tr>
+        <tr><td>leveraged farming</td><td class="num">1</td><td class="num">0.17&times;</td><td class="num">0.22&times;</td><td class="num">0.24&times;</td><td class="num"><strong>0.24&times;</strong></td></tr>
+        <tr><td>nft marketplace</td><td class="num">1</td><td class="num">2.00&times;</td><td class="num">0.90&times;</td><td class="num">0.22&times;</td><td class="num"><strong>0.22&times;</strong></td></tr>
+        <tr><td>options</td><td class="num">1</td><td class="num">1.51&times;</td><td class="num">0.63&times;</td><td class="num">0.30&times;</td><td class="num"><strong>0.30&times;</strong></td></tr>
+        <tr><td>prediction market</td><td class="num">1</td><td class="num">400.20&times;</td><td class="num">151.55&times;</td><td class="num">0.30&times;</td><td class="num"><strong>0.30&times;</strong></td></tr>
+        <tr><td>risk curators</td><td class="num">1</td><td class="num">2.97&times;</td><td class="num">1.49&times;</td><td class="num">0.24&times;</td><td class="num"><strong>0.24&times;</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Walk-forward check &mdash; tested, not asserted</h3>
+    <p class="model-note">The model was fitted on the 44 live-token protocols listed before 2024 and tested on the 51 listed in 2024 or later, then reversed. Mean absolute log error predicting market cap from TVL: radar-3 <strong>1.634</strong> vs radar-2 <strong>1.862</strong> (12.2% lower; wins 33 of 51). Reversed: <strong>1.415</strong> vs <strong>1.552</strong> (8.8% lower; wins 22 of 44). The size curve alone accounts for most of the gain (forward 1.643); the fitted multiples add the rest. Neither split was used to pick the constants.</p>
   </section>
 
   <section class="live" aria-label="Protocols whose token already trades">

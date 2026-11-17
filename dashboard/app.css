@@ -103,6 +103,15 @@ body.detail-mode .controls, body.detail-mode .board-wrap, body.detail-mode .mode
 .model-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 24px; margin: 16px 0; }
 .model-grid p { margin: 0; color: var(--muted); font-size: 14px; }
 .model-note { color: var(--muted); font-size: 14px; margin: 0; }
+/* ---- fitted model (radar-3) ---- */
+.fit-strip { max-width: 1240px; margin: 12px auto 0; font-size: 14px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 14px; }
+.calib-table { margin: 14px 0 22px; }
+.calib-table tbody tr { cursor: default; }
+.calib-table tbody tr:hover { background: transparent; }
+.calib-table td strong { color: var(--accent); }
+.model h3 { margin-top: 18px; }
+.model h3:first-child { margin-top: 0; }
+
 .live { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
 .live p { color: var(--muted); margin: 0 0 14px; max-width: 90ch; }
 .live-table tbody tr { cursor: default; }

@@ -138,10 +138,11 @@
       '<span>Tracked since <b>' + esc(r.listed_at || 'unknown') + '</b> (' + fmtAge(r.age_days) + ')</span>' +
       '<span>Token <b>records no token</b></span></p>' +
       '<table class="math"><thead><tr><th>Model step</th><th>Input</th><th class="num">Factor</th><th class="num">Value</th></tr></thead><tbody>' +
-      '<tr><td>Base</td><td>TVL &times; category multiple ' + r.category_multiple.toFixed(2) + '</td><td class="num">' + r.category_multiple.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base) + '</td></tr>' +
-      '<tr><td>Growth</td><td>7-day change ' + fmtPct(chg) + '</td><td class="num">' + r.growth_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.growth_multiplier) + '</td></tr>' +
-      '<tr><td>Maturity</td><td>' + fmtAge(r.age_days) + ' with no token</td><td class="num">' + r.maturity_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.growth_multiplier * r.maturity_multiplier) + '</td></tr>' +
-      '<tr><td>Breadth</td><td>' + (r.chains || []).length + ' chain' + ((r.chains || []).length === 1 ? '' : 's') + '</td><td class="num">' + r.breadth_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.growth_multiplier * r.maturity_multiplier * r.breadth_multiplier) + '</td></tr>' +
+      '<tr><td>Base</td><td>TVL &times; category multiple ' + r.category_multiple.toFixed(2) + ' (fitted from live comparables)</td><td class="num">' + r.category_multiple.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base) + '</td></tr>' +
+      '<tr><td>Size</td><td>TVL ' + fmtUsd(r.tvl_usd) + ' against the $50M reference</td><td class="num">' + r.size_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.size_multiplier) + '</td></tr>' +
+      '<tr><td>Growth</td><td>7-day change ' + fmtPct(chg) + '</td><td class="num">' + r.growth_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.size_multiplier * r.growth_multiplier) + '</td></tr>' +
+      '<tr><td>Maturity</td><td>' + fmtAge(r.age_days) + ' with no token</td><td class="num">' + r.maturity_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.size_multiplier * r.growth_multiplier * r.maturity_multiplier) + '</td></tr>' +
+      '<tr><td>Breadth</td><td>' + (r.chains || []).length + ' chain' + ((r.chains || []).length === 1 ? '' : 's') + '</td><td class="num">' + r.breadth_multiplier.toFixed(2) + '&times;</td><td class="num">' + fmtUsd(base * r.size_multiplier * r.growth_multiplier * r.maturity_multiplier * r.breadth_multiplier) + '</td></tr>' +
       '<tr class="total"><td>Implied value</td><td>The radar&rsquo;s own claim for this protocol</td><td class="num">&mdash;</td><td class="num">' + fmtUsd(r.implied_value_usd) + '</td></tr>' +
       '</tbody></table>' +
       '<h3>How to farm ' + esc(r.name) + '</h3>' +

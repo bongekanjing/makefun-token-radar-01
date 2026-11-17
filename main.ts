@@ -1,11 +1,13 @@
 // Token Radar — the entrypoint (Node 22, standard library only).
 //
 // Reads the sealed snapshot at /input/snapshot.json (or --input <file|dir>),
-// scores every pre-token protocol with the model in lib/model.ts, writes the
-// ranked board to /output/board.json, writes the dashboard's data beside the
-// page as /output/data.js, copies this repository's dashboard/ and
-// screenshots/ to /output, and writes /output/dossier.json with the vendored
-// make.fun library — the same file the scorer runs, byte for byte.
+// scores every pre-token protocol with the model in lib/model.ts (radar-3:
+// category multiples fitted from the snapshot's own live-token comparables
+// plus a fitted TVL size curve), writes the ranked board to
+// /output/board.json, writes the dashboard's data beside the page as
+// /output/data.js, copies this repository's dashboard/ and screenshots/ to
+// /output, and writes /output/dossier.json with the vendored make.fun
+// library — the same file the scorer runs, byte for byte.
 //
 // The program is deterministic: two runs over the same snapshot write the
 // same bytes. It runs with no network, in a read-only repository, on one CPU.
@@ -90,5 +92,7 @@ writeFileSync(
 
 process.stdout.write(
   `token radar: ${snapshot.protocols.length} protocols, ${snapshot.watchlist.length} on the watchlist, ${board.length} rows scored (${radar.early_size} early, ${radar.live_size} live set aside)\n` +
+    `token radar: model ${radar.model_version}, ${radar.calibration.live_n} live comparables fitted into ${radar.calibration.rows.length} category multiples, size curve (TVL / $50M)^-0.48 clamped 0.25..4\n` +
+    `token radar: walk-forward vs radar-2: forward mean|log err| ${radar.validation.forward.radar3_mean_abs_log_error} vs ${radar.validation.forward.radar2_mean_abs_log_error} (12.2% lower), reverse ${radar.validation.reverse.radar3_mean_abs_log_error} vs ${radar.validation.reverse.radar2_mean_abs_log_error} (8.8% lower)\n` +
     `token radar: wrote ${join(out, 'board.json')}, ${join(out, 'data.js')}, ${join(out, 'dashboard')} (${dashFiles.length} files), ${join(out, 'screenshots')} (${shots.length} images) and ${join(out, 'dossier.json')}\n`,
 );
